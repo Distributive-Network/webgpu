@@ -31,6 +31,9 @@ jobs:
         shell: bash
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+          export CC=/usr/bin/clang
+          export CXX=/usr/bin/clang++
+          export GYP_GENERATORS=ninja
           export PATH=`pwd`/depot_tools:$PATH
           cd dawn
           cp scripts/standalone.gclient .gclient

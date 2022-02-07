@@ -55,8 +55,12 @@ std::string GetModulePath() {
 }
 #endif
 
-Napi::Object Init(Napi::Env env, Napi::Object exports) {
-
+#ifdef _WIN32
+  #define NAPI_EXPORT __declspec(dllexport)
+#else
+  #define NAPI_EXPORT
+#endif
+NAPI_EXPORT Napi::Object Init(Napi::Env env, Napi::Object exports) {
   GPU::Initialize(env, exports);
   GPUAdapter::Initialize(env, exports);
   GPUDevice::Initialize(env, exports);
@@ -114,5 +118,6 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
 
   return exports;
 }
+#undef NAPI_EXPORT
 
 NODE_API_MODULE(addon, Init)

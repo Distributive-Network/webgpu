@@ -9,7 +9,6 @@ jobs:
         os:
           - windows-latest
           - ubuntu-latest
-          - macos-latest
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
@@ -26,7 +25,7 @@ jobs:
         with:
           node-version: '13.x'
 
-      # linux /macos
+      # linux
       - name: Linux - Add tools for dawn
         if: matrix.os == 'ubuntu-latest'
         shell: bash
@@ -123,11 +122,6 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: generated-windows-latest
-          path: generated
-      - name: Download macos build
-        uses: actions/download-artifact@v1
-        with:
-          name: generated-macos-latest
           path: generated
       - name: Publish to NPM
         uses: primer/publish@v2.0.0

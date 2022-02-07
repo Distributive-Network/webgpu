@@ -31,9 +31,6 @@ jobs:
         shell: bash
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
-          export CC=/usr/bin/clang
-          export CXX=/usr/bin/clang++
-          export GYP_GENERATORS=ninja
           export PATH=`pwd`/depot_tools:$PATH
           cd dawn
           cp scripts/standalone.gclient .gclient
@@ -55,6 +52,9 @@ jobs:
         shell: bash
         run: |
           export PATH=`pwd`/depot_tools:$PATH
+          export CC=/usr/bin/clang
+          export CXX=/usr/bin/clang++
+          export GYP_GENERATORS=ninja
           cd dawn
           gn gen out/Shared --target_cpu="x64" --args="is_component_build=true is_debug=false is_clang=true"
           ninja -C out/Shared

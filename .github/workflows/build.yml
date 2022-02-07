@@ -27,8 +27,8 @@ jobs:
           node-version: '13.x'
 
       # linux /macos
-      - name: Linux/MacOS - Add tools for dawn
-        if: matrix.os != 'windows-latest'
+      - name: Linux - Add tools for dawn
+        if: matrix.os == 'ubuntu-latest'
         shell: bash
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
@@ -48,23 +48,23 @@ jobs:
             libxinerama-dev \
             libxrandr-dev \
             libxxf86vm-dev \
-      - name: Linux/MacOS - Build dawn
-        if: matrix.os != 'windows-latest'
+      - name: Linux - Build dawn
+        if: matrix.os == 'ubuntu-latest'
         shell: bash
         run: |
           export PATH=`pwd`/depot_tools:$PATH
           cd dawn
           gn gen out/Shared --target_cpu="x64" --args="is_component_build=true is_debug=false is_clang=true"
           ninja -C out/Shared
-      - name: Linux/MacOS - Build webgpu
-        if: matrix.os != 'windows-latest'
+      - name: Linux - Build webgpu
+        if: matrix.os == 'ubuntu-latest'
         shell: bash
         run: |
           printf `pwd`/dawn > PATH_TO_DAWN
           npm install
           npm run all --dawnversion=0.0.1
           ls -l generated/0.0.1/*/build/Release
-  
+
       # windows
       - name: Windows - Add tools for dawn
         if: matrix.os == 'windows-latest'
@@ -134,4 +134,3 @@ jobs:
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

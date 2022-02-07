@@ -57,8 +57,9 @@ jobs:
           mkdir -p bin
           ln -sf /usr/bin/python2 ./bin/python
           ln -sf /usr/bin/python2-config ./bin/python-config
-          echo "Using: `which python`"
-          export PATH=`pwd`/depot_tools:$PATH
+          echo "Using Python: `which python`"
+          echo "Python version: `python --version`"
+          export PATH=`pwd`/bin:`pwd`/depot_tools:$PATH
           export GYP_GENERATORS=ninja
           cd dawn
           gn gen out/Shared --target_cpu="x64" --args="is_component_build=true is_debug=false is_clang=true"

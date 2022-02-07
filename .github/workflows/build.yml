@@ -18,9 +18,9 @@ jobs:
       - name: Checkout dawn
         uses: actions/checkout@v2
         with:
-          repository: maierfelix/dawn-ray-tracing
-          ref: bae8c688fe96d7fd07136d05b4a6931e9e6ead4d
-          path: dawn
+          repository: Kings-Distributed-Systems/dawn
+          ref: fc56635ea475ccae5ddc482e6af7fc1aa7815c5e
+          path: .
       - uses: actions/setup-node@v1
         with:
           node-version: '13.x'

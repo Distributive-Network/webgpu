@@ -57,7 +57,7 @@ jobs:
           mkdir -p bin
           ln -sf /usr/bin/python2 ./bin/python
           ln -sf /usr/bin/python2-config ./bin/python-config
-          msg2 "Using: `which python`"
+          echo "Using: `which python`"
           export PATH=`pwd`/depot_tools:$PATH
           export GYP_GENERATORS=ninja
           cd dawn

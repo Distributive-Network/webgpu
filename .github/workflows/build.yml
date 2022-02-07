@@ -21,7 +21,7 @@ jobs:
           repository: Kings-Distributed-Systems/dawn
           ref: fc56635ea475ccae5ddc482e6af7fc1aa7815c5e
           path: dawn
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: '13.x'
 

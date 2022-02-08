@@ -9,6 +9,7 @@ jobs:
         os:
           - windows-latest
           - ubuntu-latest
+          #- macos-latest
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
@@ -25,9 +26,9 @@ jobs:
         with:
           node-version: '13.x'
 
-      # linux
-      - name: Linux - Add tools for dawn
-        if: matrix.os == 'ubuntu-latest'
+      # linux/macos
+      - name: Linux/MacOS - Add tools for dawn
+        if: matrix.os != 'windows-latest'
         shell: bash
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
@@ -47,8 +48,8 @@ jobs:
             libxinerama-dev \
             libxrandr-dev \
             libxxf86vm-dev \
-      - name: Linux - Build dawn
-        if: matrix.os == 'ubuntu-latest'
+      - name: Linux/MacOS - Build dawn
+        if: matrix.os != 'windows-latest'
         shell: bash
         run: |
           export CC=/usr/bin/clang
@@ -62,8 +63,8 @@ jobs:
           cd dawn
           gn gen out/Shared --target_cpu="x64" --args="is_component_build=true is_debug=false is_clang=true"
           ninja -C out/Shared
-      - name: Linux - Build webgpu
-        if: matrix.os == 'ubuntu-latest'
+      - name: Linux/MacOS - Build webgpu
+        if: matrix.os != 'windows-latest'
         shell: bash
         run: |
           printf `pwd`/dawn > PATH_TO_DAWN
@@ -131,6 +132,11 @@ jobs:
         with:
           name: generated-windows-latest
           path: generated
+      - name: Download macos build
+         uses: actions/download-artifact@v1
+         with:
+           name: generated-macos-latest
+           path: generated
       - name: Publish to NPM
         uses: primer/publish@v2.0.0
         env:

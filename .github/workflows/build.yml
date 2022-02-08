@@ -51,7 +51,8 @@ jobs:
         if: matrix.os != 'windows-latest'
         shell: bash
         run: |
-          # Switch to python2 system environment
+          # Switch to python2 system environment.
+          # From: https://github.com/Jguer/yay/issues/1257
           mkdir -p bin
           ln -sf /usr/bin/python2 ./bin/python
           ln -sf /usr/bin/python2-config ./bin/python-config

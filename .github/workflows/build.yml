@@ -9,6 +9,7 @@ jobs:
         os:
           - windows-latest
           - ubuntu-latest
+          - macos-latest
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 

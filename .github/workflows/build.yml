@@ -9,7 +9,6 @@ jobs:
         os:
           - windows-latest
           - ubuntu-latest
-          - macos-latest
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
@@ -19,14 +18,14 @@ jobs:
       - name: Checkout dawn
         uses: actions/checkout@v2
         with:
-          repository: maierfelix/dawn-ray-tracing
-          ref: bae8c688fe96d7fd07136d05b4a6931e9e6ead4d
+          repository: Kings-Distributed-Systems/dawn
+          ref: fc56635ea475ccae5ddc482e6af7fc1aa7815c5e
           path: dawn
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: '13.x'
 
-      # linux /macos
+      # linux/macos
       - name: Linux/MacOS - Add tools for dawn
         if: matrix.os != 'windows-latest'
         shell: bash
@@ -52,7 +51,12 @@ jobs:
         if: matrix.os != 'windows-latest'
         shell: bash
         run: |
-          export PATH=`pwd`/depot_tools:$PATH
+          # Switch to python2 system environment.
+          # From: https://github.com/Jguer/yay/issues/1257
+          mkdir -p bin
+          ln -sf /usr/bin/python2 ./bin/python
+          ln -sf /usr/bin/python2-config ./bin/python-config
+          export PATH=`pwd`/bin:`pwd`/depot_tools:$PATH
           cd dawn
           gn gen out/Shared --target_cpu="x64" --args="is_component_build=true is_debug=false is_clang=true"
           ninja -C out/Shared
@@ -64,7 +68,7 @@ jobs:
           npm install
           npm run all --dawnversion=0.0.1
           ls -l generated/0.0.1/*/build/Release
-  
+
       # windows
       - name: Windows - Add tools for dawn
         if: matrix.os == 'windows-latest'
@@ -88,7 +92,7 @@ jobs:
           $env:DEPOT_TOOLS_WIN_TOOLCHAIN=0
           $env:GYP_MSVS_VERSION=2019
           cd dawn
-          gn gen out/Shared --ide=vs --target_cpu="x64" --args="is_component_build=true is_debug=false is_clang=false"
+          gn gen out/Shared --ide=vs --target_cpu="x64" --args="dawn_enable_vulkan_validation_layers=false is_component_build=true is_debug=false is_clang=false"
           ninja -C out/Shared
       - name: Windows - Build webgpu
         if: matrix.os == 'windows-latest'
@@ -108,6 +112,7 @@ jobs:
           path: generated
 
   publish:
+    if: ${{ false }} # Disable
     needs: build
     name: publish
     runs-on: ubuntu-latest
@@ -124,14 +129,8 @@ jobs:
         with:
           name: generated-windows-latest
           path: generated
-      - name: Download macos build
-        uses: actions/download-artifact@v1
-        with:
-          name: generated-macos-latest
-          path: generated
       - name: Publish to NPM
         uses: primer/publish@v2.0.0
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

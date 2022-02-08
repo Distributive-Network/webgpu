@@ -9,7 +9,6 @@ jobs:
         os:
           - windows-latest
           - ubuntu-latest
-          - macos-latest
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
@@ -132,11 +131,6 @@ jobs:
         with:
           name: generated-windows-latest
           path: generated
-      - name: Download macos build
-         uses: actions/download-artifact@v1
-         with:
-           name: generated-macos-latest
-           path: generated
       - name: Publish to NPM
         uses: primer/publish@v2.0.0
         env:

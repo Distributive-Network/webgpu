@@ -51,14 +51,11 @@ jobs:
         if: matrix.os != 'windows-latest'
         shell: bash
         run: |
-          export CC=/usr/bin/clang
-          export CXX=/usr/bin/clang++
-          # Switching to python2 system environment
+          # Switch to python2 system environment
           mkdir -p bin
           ln -sf /usr/bin/python2 ./bin/python
           ln -sf /usr/bin/python2-config ./bin/python-config
           export PATH=`pwd`/bin:`pwd`/depot_tools:$PATH
-          export GYP_GENERATORS=ninja
           cd dawn
           gn gen out/Shared --target_cpu="x64" --args="is_component_build=true is_debug=false is_clang=true"
           ninja -C out/Shared

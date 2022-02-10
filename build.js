@@ -142,7 +142,6 @@ function buildFiles() {
   process.stdout.write(`\nCompiling bindings..\n`);
   return new Promise(resolve => {
     let cmd = `cd ${generatePath} && node-gyp configure && node-gyp build`;
-    process.stdout.write(`Configuring and building: ${generatePath}\n`)
     let shell = spawn(cmd, { shell: true, stdio: "inherit" }, { stdio: "pipe" });
     shell.on("exit", error => {
       if (!error) {

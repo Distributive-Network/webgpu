@@ -30,7 +30,7 @@ npm install webgpu
 ## Building
 
 You have to build [dawn](https://dawn.googlesource.com/dawn) as a shared library.
-After building dawn, create a file named `PATH_TO_DAWN` in this project's root directory, containing the **absolute** path to dawn.
+After building dawn, create a file named `PATH_TO_DAWN` in this project's root directory, containing the **absolute** path to dawn using **only** forward slashes as path separators.
 
 In case you have multiple python installations, you might want to use the `--script-executable` gn flag to instruct *gn* to use the python 2.x installation.
 
@@ -58,7 +58,7 @@ In case python wasn't found:
  - Use `where python` to get the location of your python installation
  - Repoint it by running e.g. `npm config set python C:\depot_tools\python.bat`
 
-### Linux 
+### Linux
 
 Follow dawn's initial setup instructions, but instead of the standard build, do the following:
 

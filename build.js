@@ -141,11 +141,6 @@ function copyFiles() {
 function buildFiles() {
   process.stdout.write(`\nCompiling bindings..\n`);
   return new Promise(resolve => {
-    let msargs = "";
-    // add win32 vs version
-    if (platform === "win32") {
-      msargs += `--msvs_version ${msvsVersion}`;
-    }
     let cmd = `cd ${generatePath} && node-gyp configure && node-gyp build`;
     process.stdout.write(`Configuring and building: ${generatePath}\n`)
     let shell = spawn(cmd, { shell: true, stdio: "inherit" }, { stdio: "pipe" });

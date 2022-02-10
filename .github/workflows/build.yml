@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: Kings-Distributed-Systems/dawn
-          ref: 07e7c493ffebc9623d316b7e2290f9d35dedc950
+          ref: dcp/release
           path: dawn
       - uses: actions/setup-node@v2
         with:

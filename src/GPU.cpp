@@ -1,7 +1,17 @@
 #include "GPU.h"
 #include "GPUAdapter.h"
 
-std::string platform = "";
+namespace {
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+  const char *const platform = "win32";
+#elif defined(__APPLE__)
+  const char *const platform = "darwin";
+#elif defined(__linux__)
+  const char *const platform = "linux";
+#else
+#error Platform not supported.
+#endif
+}
 
 Napi::FunctionReference GPU::constructor;
 
@@ -22,12 +32,6 @@ Napi::Value GPU::requestAdapter(const Napi::CallbackInfo &info) {
   return deferred.Promise();
 }
 
-Napi::Value SetPlatform(const Napi::CallbackInfo &info) {
-  Napi::Env env = info.Env();
-  platform = info[0].ToString().Utf8Value();
-  return env.Undefined();
-}
-
 Napi::Object GPU::Initialize(Napi::Env env, Napi::Object exports) {
   Napi::HandleScope scope(env);
   Napi::Function func = DefineClass(env, "GPU", {
@@ -35,10 +39,6 @@ Napi::Object GPU::Initialize(Napi::Env env, Napi::Object exports) {
       "requestAdapter",
       &GPU::requestAdapter,
       napi_enumerable
-    ),
-    StaticMethod(
-      "$setPlatform",
-      &SetPlatform
     )
   });
   constructor = Napi::Persistent(func);

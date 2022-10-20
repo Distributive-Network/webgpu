@@ -7,7 +7,8 @@
   },
   "config": {
     "DAWN_PATH": "PATH_TO_DAWN",
-    "BABYLON_NATIVE_PATH": "PATH_TO_BABYLON_NATIVE",
+    "NODE_API_PATH": "PATH_TO_NODE_API",
+    "NODE_ADDON_API_PATH": "PATH_TO_NODE_ADDON_API",
     "GEN_OUT_DIR": "./generated",
     "SPEC_DIR": "./generator/specifications",
     "TEMPLATE_DIR": "./generator/templates"

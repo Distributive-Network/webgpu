@@ -110,7 +110,8 @@ generated/*/*/build/Release/.deps
 generated/*/*/build/Release/obj.target
 
 PATH_TO_DAWN
-PATH_TO_BABYLON_NATIVE
+PATH_TO_NODE_API
+PATH_TO_NODE_ADDON_API
 
 package-lock.json
 

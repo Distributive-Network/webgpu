@@ -26,13 +26,20 @@ jobs:
           node-version: '13.x'
 
       # linux/macos
-      - name: Linux/MacOS - Add babylon native
+      - name: Linux/MacOS - Add node-api
         if: matrix.os != 'windows-2019'
         shell: bash
         run: |
-          git clone https://github.com/Kings-Distributed-Systems/BabylonNative babylon_native
-          cd babylon_native
-          git checkout dcp/develop
+          git clone https://github.com/Kings-Distributed-Systems/node node
+          cd node
+          git checkout dcp/tickets/DCP-2955
+      - name: Linux/MacOS - Add node-addon-api
+        if: matrix.os != 'windows-2019'
+        shell: bash
+        run: |
+          git clone https://github.com/Kings-Distributed-Systems/node-addon-api node_addon_api
+          cd node_addon_pi
+          git checkout dcp/tickets/DCP-2955
       - name: Linux/MacOS - Add tools for dawn
         if: matrix.os != 'windows-2019'
         shell: bash
@@ -72,18 +79,25 @@ jobs:
         shell: bash
         run: |
           printf `pwd`/dawn > PATH_TO_DAWN
-          printf `pwd`/babylon_native > PATH_TO_BABYLON_NATIVE
+          printf `pwd`/node > PATH_TO_NODE_API
+          printf `pwd`/node_addon_api > PATH_TO_NODE_ADDON_API
           npm install
           npm run all --dawnversion=0.0.1
           ls -l generated/0.0.1/*/build/Release
 
       # windows
-      - name: Windows - Add babylon native
+      - name: Windows - Add node-api
         if: matrix.os == 'windows-2019'
         run: |
-          git clone https://github.com/Kings-Distributed-Systems/BabylonNative babylon_native
-          cd babylon_native
-          git checkout dcp/develop
+          git clone https://github.com/Kings-Distributed-Systems/node node
+          cd node
+          git checkout dcp/tickets/DCP-2955
+      - name: Windows - Add node-addon-api
+        if: matrix.os == 'windows-2019'
+        run: |
+          git clone https://github.com/Kings-Distributed-Systems/node-addon-api node_addon_api
+          cd node_addon_api
+          git checkout dcp/tickets/DCP-2955
       - name: Windows - Add tools for dawn
         if: matrix.os == 'windows-2019'
         run: |
@@ -114,8 +128,10 @@ jobs:
           $env:GYP_MSVS_VERSION=2019
           [System.IO.File]::WriteAllText("$pwd/PATH_TO_DAWN", ((Resolve-Path .\dawn).Path -Replace "/$" -Replace "\\", "/"))
           cat PATH_TO_DAWN
-          [System.IO.File]::WriteAllText("$pwd/PATH_TO_BABYLON_NATIVE", ((Resolve-Path .\babylon_native).Path -Replace "/$" -Replace "\\", "/"))
-          cat PATH_TO_BABYLON_NATIVE
+          [System.IO.File]::WriteAllText("$pwd/PATH_TO_NODE_API", ((Resolve-Path .\node).Path -Replace "/$" -Replace "\\", "/"))
+          cat PATH_TO_NODE_API
+          [System.IO.File]::WriteAllText("$pwd/PATH_TO_NODE_ADDON_API", ((Resolve-Path .\node_addon_api).Path -Replace "/$" -Replace "\\", "/"))
+          cat PATH_TO_NODE_ADDON_API
           npm install
           npm run all --dawnversion=0.0.1
           ls generated/0.0.1/*/build/Release

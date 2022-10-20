@@ -5,7 +5,8 @@
     "build": "<@(module_root_dir)/build",
     "release": "<(build)/Release",
     "dawn": "{{ DAWN_PATH | safe }}",
-    "babylon_native": "{{ BABYLON_NATIVE_PATH | safe }}"
+    "node_api": "{{ NODE_API_PATH | safe }}",
+    "node_addon_api": "{{ NODE_ADDON_API_PATH | safe }}"
   },
   "conditions": [
     [ "platform == 'win'",   { "variables": { "platform": "win" } } ],
@@ -72,7 +73,8 @@
               "NODE_ADDON_API_DISABLE_DEPRECATED"
             ],
             "include_dirs": [
-              "<(babylon_native)/Dependencies/napi/napi-direct/include/napi",
+              "<(node_api)/src",
+              "<(node_addon_api)",
               "<(dawn)/third_party/vulkan-headers/include",
               "<(root)/lib/include",
               "<(dawn)/src/include",
@@ -132,7 +134,8 @@
               "-fno-exceptions"
             ],
             "include_dirs": [
-              "<(babylon_native)/Dependencies/napi/napi-direct/include/napi",
+              "<(node_api)/src",
+              "<(node_addon_api)",
               "<(dawn)/third_party/vulkan-headers/include",
               "<(root)/lib/include",
               "<(dawn)/src/include",
@@ -232,7 +235,8 @@
               "NODE_ADDON_API_DISABLE_DEPRECATED"
             ],
             "include_dirs": [
-              "<(babylon_native)/Dependencies/napi/napi-direct/include/napi",
+              "<(node_api)/src",
+              "<(node_addon_api)",
               "<(root)/lib/include",
               "<(dawn)/src/include",
               "<(dawn)/out/Shared/gen",

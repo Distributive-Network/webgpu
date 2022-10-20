@@ -38,7 +38,7 @@ jobs:
         shell: bash
         run: |
           git clone https://github.com/Kings-Distributed-Systems/node-addon-api node_addon_api
-          cd node_addon_pi
+          cd node_addon_api
           git checkout dcp/tickets/DCP-2955
       - name: Linux/MacOS - Add tools for dawn
         if: matrix.os != 'windows-2019'
